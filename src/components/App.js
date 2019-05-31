@@ -14,10 +14,9 @@ class App extends Component {
     sunrise: "",
     sunset: "",
     temp: "",
-    maine: "",
-    description: "",
-    icon: "",
+   
     wind: "",
+    clouds:"",
     err: false
   };
 
@@ -41,8 +40,25 @@ class App extends Component {
         throw Error("Nie udało się");
       })
       .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+      .then(date => {
+        const time = new Date().toLocaleString()
+        this.setState({
+          err:false,
+          date: time,
+          city: this.state.value,
+          sunrise: date.sys.sunrise,
+          sunset: date.sys.sunset,
+          temp: date.main.temp,
+          wind: date.wind.speed,
+          clouds:date.clouds.all
+        })
+      })
+      .catch(err => console.log(err))
+      this.setState({
+        err:true,
+        city: this.state.value
+        
+      });
   };
 
   render() {
